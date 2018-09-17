@@ -25,11 +25,14 @@
 \end{IEEEkeywords}
 
 \section{Introducci\'on}
-
-
+Antes de la aparici\'on de las computadoras y su capacidad de c\'alculo en procesos estoc\'asticos, existieron diferentes m\'etodos para la generaci\'on de n\'umeros aleatorios, estos estaban basados en procedimientos mec\'anicos que generaban enormes tablas de n\'umeros (Tippett, Kendall y Babbington, Rand Corporation, etc). M\'as adelante al rededor de los an\~os 50 del siglo pasado aparecen t\'ecnicas matem\'aticas para la simulaci\'on de variables aleatorias y procesos no deterministas, dicho m\'etodo lleva por nombre Monte Carlo.\\
+Por otro lado existen dos tipos de generadores para n\'umeros aleatorios, los que se basan en fen\'omenos f\'isicos tales como el ruido atmosf\'erico, que tiene un alto grado de entrop\'ia (ya que no se conocen las condiciones iniciales que generan estos ruidos), estos son denominados generadores de verdaderos n\'umeros aleatorios (TRNG),en contrariedad con este m\'etodo los generadores pseudoaleatorios (PRNG) \cite{b1}, necesitan de un estado inicial para generar los n\'umeros mediante una secuencia algor\'itmica, por esto carecen de entrop\'ia, es decir, si se conoce el estado inicial es muy probable que se pueda recalcular una secuencia de n\'umeros, es por esto que un buen generador pseudoaleatorio debe de incorporar alg\'un grado de entrop\'ia dentro de su ecuaci\'on,por lo tanto este tipo de t\'ecnica debe de incluir alguna complejidad adicional.\\
+En este proyecto utilizaremos m\'etodos de congruencia lineal y no lineal\cite{b2} para la generaci\'on de nuestros n\'umeros pseudoaleatorios y compararemos los datos obtenidos para cada uno de estos algoritmos.
 \section{Estado del arte}
+
 \begin{itemize}
 \item articulo 1
+
 
 \item articulo 2
 
@@ -49,40 +52,12 @@
 
 \section*{Acknowledgment}
 
-The preferred spelling of the word ``acknowledgment'' in America is without 
-an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
-G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
-acknowledgments in the unnumbered footnote on the first page.
 
-\section*{References}
-
-Please number citations consecutively within brackets \cite{b1}. The 
-sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
-number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
-the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
-
-Number footnotes separately in superscripts. Place the actual footnote at 
-the bottom of the column in which it was cited. Do not put footnotes in the 
-abstract or reference list. Use letters for table footnotes.
-
-Unless there are six authors or more give all authors' names; do not use 
-``et al.''. Papers that have not been published, even if they have been 
-submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
-that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
-Capitalize only the first word in a paper title, except for proper nouns and 
-element symbols.
-
-For papers published in translation journals, please give the English 
-citation first, followed by the original foreign-language citation \cite{b6}.
 
 \begin{thebibliography}{00}
-\bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
-\bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
-\bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
-\bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
-\bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
-\bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
-\bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
+\bibitem{b1} David DiCarlo (2012), Random Number Generation: Types and Techniques, [archivo PDF]. Disponible en: https://pdfs.semanticscholar.org
+\bibitem{b2} James E. Gentle, Random Number Generation and Monte Carlo Methods, 2da ed., Estados Unidos, 2005, pp.11--38.
+
 \end{thebibliography}
 \vspace{12pt}
 
