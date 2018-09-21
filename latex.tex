@@ -62,21 +62,25 @@ $$\Phi_{\mu,\sigma^2}(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
 
 Y su funci\'on densidad de probabilidad esta dada por:
 $$p(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
-e^{-\dfrac{(t-\mu)^2}{2\sigma^2}} , z \in {\rm I\!R} $$
+e^{-\dfrac{(z-\mu)^2}{2\sigma^2}} , z \in {\rm I\!R} $$
 
 Esta funci\'on nos resulta en forma de campana, y nos muestra una distribuci\'on tal que es sim\'etrica, la media, la mediana y la moda toman el mismo valor igual a $\mu$ . Esta distribuci\'on es bastante usada debido a que permite modelar numerosos fen\'omenos naturales,sociales o psicol\'ogicos.
 
-Entonces notemos que si hacemos $\mu=0,\sigma^2=1$ obtenemos $N=(0,1)$
+Entonces notemos que si hacemos $\mu=0,\sigma^2=1$ obtenemos $N(0,1)$
 la cual es denominada la distribuci\'on normal est\'andar, 
-Esto quiere decir que los n\'umeros aleatorios deben generarse teniendo en cuenta que para cada tramo existe una probabilidad diferente, que depende que tan cerca o lejos de la media se encuentre. 
-$$p(z) = \dfrac {1}{\sqrt{2\pi}}
+ 
+$$p(x) = \dfrac {1}{\sqrt{2\pi}}
 e^{-\dfrac{x^2}{2}} dt, x \in {\rm I\!R} $$
-Debemos notar que haciendo un cambio de variable en la funci\'on de distribuci\'on normal $$z=\dfrac{x-\mu}{\sigma}$$ podemos reducir y obtener la distribuci\'on normal est\'andar:
+Debemos notar que haciendo un cambio de variable en la funci\'on de distribuci\'on normal est\'andar $$z=\dfrac{x-\mu}{\sigma}$$ podemos obtener nuevamente la distribuci\'on normal $N(\mu,\sigma^2)$ 
 
-$$\Phi_{\mu,\sigma^2}(z) = \dfrac {1}{\sqrt{2\pi}}
-\int_{-\infty}^{z} e^{-\dfrac{x^2}{2}} dt, x \in {\rm I\!R} $$
+$$p(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
+e^{-\dfrac{(z-\mu)^2}{2\sigma^2}} , z \in {\rm I\!R} $$
 
+Por lo tanto, haremos el experimento usando la distribuci\'on normal est\'andar $N(0,1)$.
 
+Esto quiere decir que los n\'umeros aleatorios deben generarse teniendo en cuenta que para cada tramo existe una probabilidad diferente, que depende que tan cerca o lejos de la media se encuentre.
+
+Entonces siguiendo con el experimento, podemos usar una distribuci\'on uniforme para construir nuestra distribuci\'on normal est\'andar. Encontramos material para esto en el capitulo 5 del libro Random Number Generation and Monte Carlo Methods\cite{b3}.
 
 \section*{Acknowledgment}
 
