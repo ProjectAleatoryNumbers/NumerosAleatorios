@@ -11,13 +11,13 @@
 \begin{document}
 	
 \title{GENERACI\'ON DE N\'UMEROS ALEATORIOS CON DISTRIBUCI\'ON NORMAL SIMULADO EN EL LENGUAJE R}
-\author{\IEEEauthorblockN{Castillo Flores Junior \IEEEauthorrefmark{1}, Calapuja Apaza Luis \IEEEauthorrefmark{}, Nalvarte Yantas Kevin\IEEEauthorrefmark{}, Huanca Huanca Valerio\IEEEauthorrefmark{}}
+\author{\IEEEauthorblockN{Castillo Flores Junior \IEEEauthorrefmark{0}, Calapuja Apaza Luis \IEEEauthorrefmark{0}, Nalvarte Yantas Kevin\IEEEauthorrefmark{0}, Huanca Huanca Valerio\IEEEauthorrefmark{0}}
 \IEEEauthorblockA{Universidad Nacional de Ingenier\'ia\\
 Lima, Per\'u\\
-e-mail:\IEEEauthorrefmark{1}juniorcastillon6@gmail.com,
-\IEEEauthorrefmark{}lcalapujaa@uni.pe,
-\IEEEauthorrefmark{}kevinnalvarte@hotmail.com,
-\IEEEauthorrefmark{}lhuancah@uni.pe}}
+e-mail:\IEEEauthorrefmark{0}juniorcastillon6@gmail.com,
+\IEEEauthorrefmark{0}lcalapujaa@uni.pe,
+\IEEEauthorrefmark{0}kevinnalvarte@hotmail.com,
+\IEEEauthorrefmark{0}lhuancah@uni.pe}}
 % make the title area
 \maketitle
 	
@@ -45,21 +45,67 @@ X_{j+1} = a.X_{j}+c.mod(m)
 \end{equation}
 Se debe de tener cuidado ya que la generaci\'on de aleatorios puede degenerarse, para esto se escoge convenientemente ciertos n\'umeros que generen un periodo m\'aximo de tama\~no $m$ que se describen a detalle en el art\'iculo \cite{b2}, con esto obtendremos que los n\'umeros obtenidos sean igualmente probables, al aparecer como m\'inimo una vez en la secuencia.\\
 Se describen m\'as m\'etodos que derivan de la congruencia lineal de Lehmer como: m\'etodo mixto de congruencias, m\'etodo multiplicativo de congruencias, generador Shift-Register, generador Lagger-Fibonnaci, generador de congruencia inversa, generador de congruencia lineal combinada.\\
-Con los m\'etodos mencionados anteriormente se obtienen n\'umeros con distribuciones uniformes, estos pueden modificarse para generar otras distribuciones. Hay muchas distribuciones pero en nuestro estudio nos enfocaremos en la distribuci\'on normal, esto se describe con mas detalle en el capitulo 5 del libro Random Number Generation and Monte Carlo Methods \cite{b3}. 
+Con los m\'etodos mencionados anteriormente se obtienen n\'umeros con distribuciones uniformes, estos pueden modificarse para generar otras distribuciones. Hay muchas distribuciones pero en nuestro estudio nos enfocaremos en la distribuci\'on normal, esto se describe con mas detalle en el capitulo 5 del libro Random Number Generation and Monte Carlo Methods\cite{b3}. 
   
 \section{\textbf{Dise\~no del experimento}}
-\begin{itemize}
 
-\item 
-\end{itemize}
+Nuestra misi\'on ser\'a que dado como datos la media y la desviaci\'on t\'ipica, debemos poder generar n\'umeros aleatorios de tal forma que tengan distribuci\'on normal con la media y la desviaci\'on t\'ipica dada.
 
-modificando el archivo
+La funci\'on de distribuci\'on de la distribuci\'on normal de $N(\mu,\sigma^2)$ est\'a definida como:
+
+$$\Phi_{\mu,\sigma^2}(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
+\int_{-\infty}^{z} e^{-\dfrac{(t-\mu)^2}{2\sigma^2}} dt, z \in {\rm I\!R} $$
+
+Y su funci\'on densidad de probabilidad esta dada por:
+$$p(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
+e^{-\dfrac{(z-\mu)^2}{2\sigma^2}} , z \in {\rm I\!R} $$
+
+Esta funci\'on nos resulta en forma de campana, y nos muestra una distribuci\'on tal que es sim\'etrica, la media, la mediana y la moda toman el mismo valor igual a $\mu$ . Esta distribuci\'on es bastante usada debido a que permite modelar numerosos fen\'omenos naturales,sociales o psicol\'ogicos.
+
+Entonces notemos que si hacemos $\mu=0,\sigma^2=1$ obtenemos $N(0,1)$
+la cual es denominada la distribuci\'on normal est\'andar, 
+ 
+$$p(x) = \dfrac {1}{\sqrt{2\pi}}
+e^{-\dfrac{x^2}{2}} dt, x \in {\rm I\!R} $$
+Debemos notar que haciendo un cambio de variable en la funci\'on de distribuci\'on normal est\'andar $$z=\dfrac{x-\mu}{\sigma}$$ podemos obtener nuevamente la distribuci\'on normal $N(\mu,\sigma^2)$ 
+
+$$p(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
+e^{-\dfrac{(z-\mu)^2}{2\sigma^2}} , z \in {\rm I\!R} $$
+
+Por lo tanto, haremos el experimento usando la distribuci\'on normal est\'andar $N(0,1)$.
+
+Esto quiere decir que los n\'umeros aleatorios deben generarse teniendo en cuenta que para cada tramo existe una probabilidad diferente, que depende que tan cerca o lejos de la media se encuentre.
+
+Entonces siguiendo con el experimento, podemos usar una distribuci\'on uniforme para construir nuestra distribuci\'on normal est\'andar. Encontramos material para esto en el capitulo 5 del libro Random Number Generation and Monte Carlo Methods\cite{b3}.
+
+Por lo tanto, en primer lugar tendremos que conseguir un algoritmo eficiente para la generaci\'on de n\'umeros aleatorios distribuidos uniformemente. 
+
+Existen varios m\'etodos para conseguir esto, pero nosotros implementaremos el algoritmo para el m\'as usado y recomendado por su simpleza, facilidad y eficacia en las bibliograf\'ias, el cual es el m\'etodo de generaci\'on de n\'umeros pseudoaleatorios usando generadores de congruencia lineal mixta, el cual esta basado en el m\'etodo de congruencia lineal de Lehmer.
+
+El m\'etodo de congruencia lineal de Lehmer pasa a llamarse m\'etodo mixto de congruencias cuando $c \not= 0$ en la siguiente sucesi\'on:
+
+\begin{equation}
+X_{j+1} = a.X_{j}+c.mod(m)
+\end{equation}
+
+Donde tenemos la semilla $X\textsubscript{0}\geq 0$ , un multiplicador $a \geq 0$, incremento $c>0$ y un m\'odulo $m >X\textsubscript{0}$ ,$a$ y $c$ .
+
+Existen m\'etodos en la bibliograf\'ia adjunta para escoger estos valores para que sean los m\'as adecuados posibles tomando en cuenta los bits del procesador, y los factores primos del multiplicador, del incremento y del m\'odulo tal que se evite la degeneraci\'on de la secuencia de estos n\'umeros pseudoaleatorios y adem\'as la longitud de esta secuencia sea la mayor posible.
+
+Entonces como puede deducirse de todo lo anterior dicho, nuestro dise\~no del experimento consiste en realizar la implementaci\'on de estos m\'etodos en los cuales se puede destacar tres etapas bien diferenciadas:
+
+\begin{enumerate}
+    \item Implementar de manera \'optima un algoritmo para conseguir la generaci\'on de n\'umeros aleatorios en distribuci\'on uniforme. 
+    \item Implementar la modificaci\'on y/o el uso del algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on uniforme para obtener un generador de n\'umeros aleatorios en distribuci\'on normal est\'andar.
+    \item Hacer el cambio de variable y usar el algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on normal est\'andar para obtener un algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on normal el cual tendr\'a como argumentos adicionales la media ($\mu$) y la desviaci\'on t\'ipica ($\sigma^2$).
+    
+\end{enumerate}
 
 \section*{Acknowledgment}
 
 
 
-\begin{thebibliography}{00}
+\begin{thebibliography}{0}
 \bibitem{b1} David DiCarlo (2012), Random Number Generation: Types and Techniques, [archivo PDF]. Disponible en: https://pdfs.semanticscholar.org
 \bibitem{b2} Alfonso Mancilla (2000), N\'umeros Aleatorios ,[archivo PDF]. Disponible en: http://ciruelo.uninorte.edu.co/pdf/ingenieria\_desarrollo/
 \bibitem{b3} James E. Gentle, Random Number Generation and Monte Carlo Methods, 2da ed., Estados Unidos, 2005, pp.165--217.
