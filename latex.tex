@@ -1,0 +1,93 @@
+\documentclass[conference,a4paper]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+	
+\title{GENERACI\'ON DE N\'UMEROS ALEATORIOS CON DISTRIBUCI\'ON NORMAL SIMULADO EN EL LENGUAJE R}
+\author{\IEEEauthorblockN{Castillo Flores Junior \IEEEauthorrefmark{0}, Calapuja Apaza Luis \IEEEauthorrefmark{0}, Nalvarte Yantas Kevin\IEEEauthorrefmark{0}, Huanca Huanca Valerio\IEEEauthorrefmark{0}}
+\IEEEauthorblockA{Universidad Nacional de Ingenier\'ia\\
+Lima, Per\'u\\
+e-mail:\IEEEauthorrefmark{0}juniorcastillon6@gmail.com,
+\IEEEauthorrefmark{0}lcalapujaa@uni.pe,
+\IEEEauthorrefmark{0}kevinnalvarte@hotmail.com,
+\IEEEauthorrefmark{0}lhuancah@uni.pe}}
+% make the title area
+\maketitle
+	
+\begin{abstract}
+%%aqui va el abstract
+
+\end{abstract}
+\begin{IEEEkeywords}
+%%palabras claves 
+Distribuci\'on normal, congruencia lineal, pseudo-aleatoriedad , estoc\'astico, 
+\end{IEEEkeywords}
+
+\section{\textbf{Introducci\'on}}
+Antes de la aparici\'on de las computadoras y su capacidad de c\'alculo en procesos estoc\'asticos, existieron diferentes m\'etodos para la generaci\'on de n\'umeros aleatorios, estos estaban basados en procedimientos mec\'anicos que generaban enormes tablas de n\'umeros (Tippett, Kendall y Babbington, Rand Corporation, etc). M\'as adelante al rededor de los an\~os 40 del siglo pasado aparecen t\'ecnicas matem\'aticas para la simulaci\'on de variables aleatorias y procesos no deterministas, dicho m\'etodo lleva por nombre Monte Carlo.\\
+Por otro lado existen dos tipos de generadores para n\'umeros aleatorios, los que se basan en fen\'omenos f\'isicos tales como el ruido atmosf\'erico, que tiene un alto grado de entrop\'ia (ya que no se conocen las condiciones iniciales que generan estos ruidos), estos son denominados generadores de verdaderos n\'umeros aleatorios (TRNG), en contrariedad con este m\'etodo los generadores pseudoaleatorios (PRNG), necesitan de un estado inicial para generar los n\'umeros mediante una secuencia algor\'itmica, por esto carecen de entrop\'ia, un buen generador pseudoaleatorio debe de incorporar alg\'un grado de entrop\'ia dentro de su ecuaci\'on,por lo tanto este tipo de t\'ecnica debe de incluir alguna complejidad adicional, algunas de estas t\'ecnicas se utilizan para asegurar que los n\'umeros sean fiables para su uso en criptograf\'ia.\\
+En este proyecto utilizaremos m\'etodos de congruencia lineal simulados en lenguaje R para la generaci\'on de n\'umeros pseudoaleatorios y compararemos los datos obtenidos para cada uno de estos algoritmos.
+\section{\textbf{Estado del arte}}
+En el art\'iculo Random Number Generation: Types and Techniques \cite{b1} se describe dos m\'etodos de generaci\'on de n\'umeros aleatorios, la primera se basa en tomar como modelo fen\'omenos del entorno f\'isico cuyos patrones no son aleatorios, hay quienes discrepan sobre esta aleatoriedad, ya que para que se d\'e un fen\'omeno debe de existir efectos que lo causen, si se llegara a conocer las condiciones iniciales que causan estos fen\'omenos, estos dejar\'ian de ser no deterministas, sin embargo, esto es casi imposible ya que los factores causantes de un fen\'omeno son pr\'acticamente infinitos, esto se puede describir como un efecto mariposa, es decir, que si se produjera una peque\~na perturbaci\'on en las condiciones iniciales los cambios en los fen\'omenos de la naturaleza ser\'ian enormes. Entre los fen\'omenos f\'isicos tomados como fuente de aleatoriedad tenemos: ruido atmosf\'erico, decaimiento radiactivo, lasers y circuitos osciladores.\\
+Por otro lado tambi\'en existen generadores que no dependen de fen\'omenos de la realidad, a estos se los conoce como generadores pseudoaleatorios, estos generadores en principio parecen producir secuencias aleatorias para cualquiera que no conozca el valor inicial secreto. En un generador pseudoaleatorio b\'asico, el valor inicial es el \'unico factor en que se introduce la entrop\'ia al sistema. A diferencia de los verdaderos generadores de n\'umeros aleatorios (que toman la entrop\'ia de un fen\'omeno y lo transforman en n\'umeros), un generador pseudoaleatorio necesita encontrar alguna entrop\'ia para mantenerse impredecible. Las t\'acticas cl\'asicas para lograr esto incluyen tomar la hora del d\'ia, la ubicaci\'on del mouse o la actividad en el teclado, esto no nos asegura que alguien no pueda replicar una secuencia conociendo los valores iniciales, ya que un humano puede replicar estas t\'acticas. Un generador pseudoaleatorio confiable es aquel que no nos permite replicar con facilidad una secuencia de n\'umeros, este debe de tener variables que no puedan determinarse en un proceso intermedio.
+
+El m\'etodo de congruencia lineal de Lehmer es uno de los m\'etodos m\'as conocidos para la generaci\'on de n\'umeros pseudoaleatorios, consiste en escoger convenientemente una semilla $X\textsubscript{0}\geq 0$, un multiplicador $a \geq 0$, incremento $c \geq 0$ y un modulo $m >X\textsubscript{0}$ ,$a$ y $c$ .
+
+\begin{equation}
+X_{j+1} = a.X_{j}+c.mod(m)
+\end{equation}
+Se debe de tener cuidado ya que la generaci\'on de aleatorios puede degenerarse, para esto se escoge convenientemente ciertos n\'umeros que generen un periodo m\'aximo de tama\~no $m$ que se describen a detalle en el art\'iculo \cite{b2}, con esto obtendremos que los n\'umeros obtenidos sean igualmente probables, al aparecer como m\'inimo una vez en la secuencia.\\
+Se describen m\'as m\'etodos que derivan de la congruencia lineal de Lehmer como: m\'etodo mixto de congruencias, m\'etodo multiplicativo de congruencias, generador Shift-Register, generador Lagger-Fibonnaci, generador de congruencia inversa, generador de congruencia lineal combinada.\\
+Con los m\'etodos mencionados anteriormente se obtienen n\'umeros con distribuciones uniformes, estos pueden modificarse para generar otras distribuciones. Hay muchas distribuciones pero en nuestro estudio nos enfocaremos en la distribuci\'on normal, esto se describe con mas detalle en el capitulo 5 del libro Random Number Generation and Monte Carlo Methods\cite{b3}. 
+  
+\section{\textbf{Dise\~no del experimento}}
+\begin{itemize}
+
+\item 
+\end{itemize}
+
+Nuestra misi\'on ser\'a que dado como datos la media y la desviaci\'on t\'ipica, debemos poder generar n\'umeros aleatorios de tal forma que tengan distribuci\'on normal con la media y la desviaci\'on t\'ipica dada.
+
+La funci\'on de distribuci\'on de la distribuci\'on normal de $N(\mu,\sigma^2)$ est\'a definida como:
+
+$$\Phi_{\mu,\sigma^2}(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
+\int_{-\infty}^{z} e^{-\dfrac{(t-\mu)^2}{2\sigma^2}} dt, z \in {\rm I\!R} $$
+
+Y su funci\'on densidad de probabilidad esta dada por:
+$$p(z) = \dfrac {1}{\sigma\sqrt{2\pi}}
+e^{-\dfrac{(t-\mu)^2}{2\sigma^2}} , z \in {\rm I\!R} $$
+
+Esta funci\'on nos resulta en forma de campana, y nos muestra una distribuci\'on tal que es sim\'etrica, la media, la mediana y la moda toman el mismo valor igual a $\mu$ . Esta distribuci\'on es bastante usada debido a que permite modelar numerosos fen\'omenos naturales,sociales o psicol\'ogicos.
+
+Entonces notemos que si hacemos $\mu=0,\sigma^2=1$ obtenemos $N=(0,1)$
+la cual es denominada la distribuci\'on normal est\'andar, 
+Esto quiere decir que los n\'umeros aleatorios deben generarse teniendo en cuenta que para cada tramo existe una probabilidad diferente, que depende que tan cerca o lejos de la media se encuentre. 
+$$p(z) = \dfrac {1}{\sqrt{2\pi}}
+e^{-\dfrac{x^2}{2}} dt, x \in {\rm I\!R} $$
+Debemos notar que haciendo un cambio de variable en la funci\'on de distribuci\'on normal $$z=\dfrac{x-\mu}{\sigma}$$ podemos reducir y obtener la distribuci\'on normal est\'andar:
+
+$$\Phi_{\mu,\sigma^2}(z) = \dfrac {1}{\sqrt{2\pi}}
+\int_{-\infty}^{z} e^{-\dfrac{x^2}{2}} dt, x \in {\rm I\!R} $$
+
+
+
+\section*{Acknowledgment}
+
+
+
+\begin{thebibliography}{0}
+\bibitem{b1} David DiCarlo (2012), Random Number Generation: Types and Techniques, [archivo PDF]. Disponible en: https://pdfs.semanticscholar.org
+\bibitem{b2} Alfonso Mancilla (2000), N\'umeros Aleatorios ,[archivo PDF]. Disponible en: http://ciruelo.uninorte.edu.co/pdf/ingenieria\_desarrollo/
+\bibitem{b3} James E. Gentle, Random Number Generation and Monte Carlo Methods, 2da ed., Estados Unidos, 2005, pp.165--217.
+
+\end{thebibliography}
+\vspace{12pt}
+
+\end{document}
