@@ -48,10 +48,6 @@ Se describen m\'as m\'etodos que derivan de la congruencia lineal de Lehmer como
 Con los m\'etodos mencionados anteriormente se obtienen n\'umeros con distribuciones uniformes, estos pueden modificarse para generar otras distribuciones. Hay muchas distribuciones pero en nuestro estudio nos enfocaremos en la distribuci\'on normal, esto se describe con mas detalle en el capitulo 5 del libro Random Number Generation and Monte Carlo Methods\cite{b3}. 
   
 \section{\textbf{Dise\~no del experimento}}
-\begin{itemize}
-
-\item 
-\end{itemize}
 
 Nuestra misi\'on ser\'a que dado como datos la media y la desviaci\'on t\'ipica, debemos poder generar n\'umeros aleatorios de tal forma que tengan distribuci\'on normal con la media y la desviaci\'on t\'ipica dada.
 
@@ -81,6 +77,26 @@ Por lo tanto, haremos el experimento usando la distribuci\'on normal est\'andar 
 Esto quiere decir que los n\'umeros aleatorios deben generarse teniendo en cuenta que para cada tramo existe una probabilidad diferente, que depende que tan cerca o lejos de la media se encuentre.
 
 Entonces siguiendo con el experimento, podemos usar una distribuci\'on uniforme para construir nuestra distribuci\'on normal est\'andar. Encontramos material para esto en el capitulo 5 del libro Random Number Generation and Monte Carlo Methods\cite{b3}.
+
+Por lo tanto, en primer lugar tendremos que conseguir un algoritmo eficiente para la generaci\'on de n\'umeros aleatorios distribuidos uniformemente. 
+
+Existen varios m\'etodos para conseguir esto, pero nosotros implementaremos el algoritmo para el m\'as usado y recomendado por su simpleza, facilidad y eficacia en las bibliograf\'ias, el cual es el m\'etodo de generaci\'on de n\'umeros pseudoaleatorios usando generadores de congruencia lineal mixta, el cual esta basado en el m\'etodo de congruencia lineal de Lehmer.
+
+El m\'etodo de congruencia lineal de Lehmer pasa a llamarse m\'etodo mixto de congruencias cuando $c \not= 0$ en la siguiente sucesi\'on
+
+\begin{equation}
+X_{j+1} = a.X_{j}+c.mod(m)
+\end{equation}
+
+
+Entonces el dise\~no del experimento se realizar\'a en tres partes bien diferenciadas:
+
+\begin{enumerate}
+    \item Implementar de manera \'optima un algoritmo para conseguir la generaci\'on de n\'umeros aleatorios en distribuci\'on uniforme. 
+    \item Implementar la modificaci\'on y/o el uso del algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on uniforme para obtener un generador de n\'umeros aleatorios en distribuci\'on normal est\'andar.
+    \item Hacer el cambio de variable y usar el algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on normal est\'andar para obtener un algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on normal el cual tendr\'a como argumentos adicionales la media ($\mu$) y la desviaci\'on t\'ipica ($\sigma^2$)
+    
+\end{enumerate}
 
 \section*{Acknowledgment}
 
