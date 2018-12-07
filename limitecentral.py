@@ -49,6 +49,7 @@ def main():
     cuenta,cajas,ignorar    =   plt.hist(z,20)
     plt.xlabel("valores")
     plt.ylabel("frecuencias")
+    plt.savefig("normal.png")
     plt.show()
 
 

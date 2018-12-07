@@ -6,11 +6,13 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{ {/home/junior/probabilidades/proyecto/repoclone3} }
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 	
-\title{GENERACI\'ON DE N\'UMEROS ALEATORIOS CON DISTRIBUCI\'ON NORMAL SIMULADO EN EL LENGUAJE R}
+\title{GENERACI\'ON DE N\'UMEROS ALEATORIOS CON DISTRIBUCI\'ON NORMAL SIMULADO EN EL LENGUAJE PYTHON}
 \author{\IEEEauthorblockN{Castillo Flores Junior \IEEEauthorrefmark{1}, Calapuja Apaza Luis \IEEEauthorrefmark{}, Nalvarte Yantas Kevin\IEEEauthorrefmark{}, Huanca Huanca Valerio\IEEEauthorrefmark{}}
 \IEEEauthorblockA{Universidad Nacional de Ingenier\'ia\\
 Lima, Per\'u\\
@@ -33,7 +35,7 @@ Distribuci\'on normal, congruencia lineal, pseudo-aleatoriedad , estoc\'astico,
 \section{\textbf{Introducci\'on}}
 Antes de la aparici\'on de las computadoras y su capacidad de c\'alculo en procesos estoc\'asticos, existieron diferentes m\'etodos para la generaci\'on de n\'umeros aleatorios, estos estaban basados en procedimientos mec\'anicos que generaban enormes tablas de n\'umeros (Tippett, Kendall y Babbington, Rand Corporation, etc). M\'as adelante al rededor de los an\~os 40 del siglo pasado aparecen t\'ecnicas matem\'aticas para la simulaci\'on de variables aleatorias y procesos no deterministas, dicho m\'etodo lleva por nombre Monte Carlo.\\
 Por otro lado existen dos tipos de generadores para n\'umeros aleatorios, los que se basan en fen\'omenos f\'isicos tales como el ruido atmosf\'erico, que tiene un alto grado de entrop\'ia (ya que no se conocen las condiciones iniciales que generan estos ruidos), estos son denominados generadores de verdaderos n\'umeros aleatorios (TRNG), en contrariedad con este m\'etodo los generadores pseudoaleatorios (PRNG), necesitan de un estado inicial para generar los n\'umeros mediante una secuencia algor\'itmica, por esto carecen de entrop\'ia, un buen generador pseudoaleatorio debe de incorporar alg\'un grado de entrop\'ia dentro de su ecuaci\'on, por lo tanto este tipo de t\'ecnica debe de incluir alguna complejidad adicional, algunas de estas t\'ecnicas se utilizan para asegurar que los n\'umeros sean fiables para su uso en criptograf\'ia.\\
-En este proyecto utilizaremos m\'etodos de congruencia lineal simulados en lenguaje R para la generaci\'on de n\'umeros pseudoaleatorios y compararemos los datos obtenidos para cada uno de estos algoritmos.
+En este proyecto utilizaremos m\'etodos de congruencia lineal simulados en lenguaje Python para la generaci\'on de n\'umeros pseudoaleatorios y compararemos los datos obtenidos para cada uno de estos algoritmos.
 \section{\textbf{Estado del arte}}
 En el art\'iculo Random Number Generation: Types and Techniques \cite{b1} se describe dos m\'etodos de generaci\'on de n\'umeros aleatorios, la primera se basa en tomar como modelo fen\'omenos del entorno f\'isico cuyos patrones no son aleatorios, hay quienes discrepan sobre esta aleatoriedad, ya que para que se d\'e un fen\'omeno debe de existir efectos que lo causen, si se llegara a conocer las condiciones iniciales que causan estos fen\'omenos, estos dejar\'ian de ser no deterministas, sin embargo, esto es casi imposible ya que los factores causantes de un fen\'omeno son pr\'acticamente infinitos, esto se puede describir como un efecto mariposa, es decir, que si se produjera una peque\~na perturbaci\'on en las condiciones iniciales los cambios en los fen\'omenos de la naturaleza ser\'ian enormes. Entre los fen\'omenos f\'isicos tomados como fuente de aleatoriedad tenemos: ruido atmosf\'erico, decaimiento radiactivo, lasers y circuitos osciladores.\\
 Por otro lado tambi\'en existen generadores que no dependen de fen\'omenos de la realidad, a estos se los conoce como generadores pseudoaleatorios, estos generadores en principio parecen producir secuencias aleatorias para cualquiera que no conozca el valor inicial secreto. En un generador pseudoaleatorio b\'asico, el valor inicial es el \'unico factor en que se introduce la entrop\'ia al sistema. A diferencia de los verdaderos generadores de n\'umeros aleatorios (que toman la entrop\'ia de un fen\'omeno y lo transforman en n\'umeros), un generador pseudoaleatorio necesita encontrar alguna entrop\'ia para mantenerse impredecible. Las t\'acticas cl\'asicas para lograr esto incluyen tomar la hora del d\'ia, la ubicaci\'on del mouse o la actividad en el teclado, esto no nos asegura que alguien no pueda replicar una secuencia conociendo los valores iniciales, ya que un humano puede replicar estas t\'acticas. Un generador pseudoaleatorio confiable es aquel que no nos permite replicar con facilidad una secuencia de n\'umeros, este debe de tener variables que no puedan determinarse en un proceso intermedio.
@@ -96,7 +98,49 @@ Entonces el dise\~no del experimento se realizar\'a en tres partes bien diferenc
 	\item Hacer el cambio de variable y usar el algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on normal est\'andar para obtener un algoritmo de generaci\'on de n\'umeros aleatorios en distribuci\'on normal el cual tendr\'a como argumentos adicionales la media ($\mu$) y la desviaci\'on t\'ipica ($\sigma^2$).
 	
 \end{enumerate}
+Tambien utilizaremos la t\'ecnica de Box-Muller, que transforma dos distribuciones uniformes en una distribuci\'on normal bivariada.\\
+El m\'etodo consiste en los siguientes pasos:
+\begin{enumerate}
+	\item Se generan dos n\'umeros aleatorios $r_{1}$ y $r_{2}$ , $U(0,1)$
+	\item Se transforman en dos variables aleatorias normales, cada	una con media 0 y varianza 1, usando transformaciones directas:\\
+	\begin{equation}
+	z_{1}=(-2\ln r_{1})^{1/2} \sin (2\pi r_{2})
+	\end{equation}
+	\begin{equation}
+	z_{2}=(-2\ln r_{1})^{1/2} \cos (2\pi r_{2})
+	\end{equation}
+	\item Se calculan las variables aleatorias normales $x_{1}$ y $x_{2}$ de la siguiente forma:\\
+	\begin{equation}
+	x_{1}=z_{1}\sigma + \mu
+	\end{equation}
+	\begin{equation}
+	x_{2}=z_{2}\sigma + \mu
+	\end{equation}
+\end{enumerate}
+\section{\textbf{Experimentos y resultados}}
+A partir del m\'etodo de congruencia lineal, tomando como par\'ametros $a = 7^{5}$ , $c = 630360016$ y $m = 2^{31}-1$ ,elegidos convenientemente, generamos varias muestras pseudoaleatorias, dichas muestras se dividieron entre el m\'odulo para uniformizarlas  $U$ $(0,1)$ , para luego aplicar el teorema del l\'imite central que transforma esta distribuci\'on en una distribuci\'on normal seg\'un:\\
+\begin{equation}
+ z = \frac{\sum_{i=1}^{n}r_{i}  - n\mu}{(n\sigma^{2})^{1/2}}
+\end{equation}
+Donde $r_{i}$ son los valores asociados a las variables aleatorias iid uniformes $U_{i}$ en (0,1), asi obtenemos para n muestras, n valores para z , estos valores tiene una distribuci\'on  $N(0,1)$ como se obtuvo en el programa dibujando un histograma de frecuencias:\\
+\includegraphics[scale=0.55]{normal}\\
+Para el m\'etodo de Box-Muller utilizamos el mismo generador de congruencia lineal, y obtuvimos 2 variables aleatorias distribuidas normalmente, aplicando las ecuaciones (3) y (4):\\
+\includegraphics[scale=0.55]{z1}  
+\includegraphics[scale=0.55]{z2}
+Si graficamos esta distribuci\'on obtenida con el m\'etodo de box-muller como una proyecci\'on en 2 dimensiones, obtenemos:\\
+\includegraphics[scale=0.5]{bivariada}
+\section{Discusi\'on}
+Se debe de tener cuidado al momento de elegir los par\'ametros para el algoritmo de congruencia lineal, ya que debe de cumplir con ciertas condiciones para que no se degenere, es decir, su periodo m\'aximo llegue a m-1.\\
 
+En el m\'etodo de convoluci\'on (teorema del limite central)  nos arroja valores entre -1 y 1 de manera aleatoria, cuya distribuci\'on es normal cuando la cantidad de muestras es mayor que 5, nostros tomamos para 1000 muestras iid a partir de nuestro generador pseudoaleatorio.\\
+
+El m\'etodo de box-muller es un m\'etodo directo de transformar 2 variables distribuidas uniformemente en U(0,1)
+en 2 variables aleatorias distribuidas normalmente. que en coordenadas polares nos da una distribucion bivariada normal. Nosotros graficamos la proyecci\'on en 2 dimensiones, y podemos observar que los datos se juntan hacia el centro, de la circunferencia, es decir, hay mas datos cerca de la media  y a medida que nos alejamos del centro los puntos se dispersan.\\
+
+\section{Conclusiones}
+Los m\'etodos utilizados para la transformaci\'on de una distribucion uniforme a una con distribuci\'on normal son confialbes, siempre y cuando las muestras uniformes sean iid (independientes e identicamente distribuidas).\\
+
+Se debe de elegir buenos parametros para el generador de congruencia lineal ,que cumplan las condiciones mencionadas, para que nuestros numeros pseudoaleatorios no degeneren.\\
 \section*{Acknowledgment}
 
 
@@ -110,3 +154,4 @@ Entonces el dise\~no del experimento se realizar\'a en tres partes bien diferenc
 \vspace{12pt}
 
 \end{document}
+	
